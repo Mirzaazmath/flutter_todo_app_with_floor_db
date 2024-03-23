@@ -19,6 +19,7 @@ class Field extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: TextStyle(color: Theme.of(context).primaryColor),
       readOnly: isEnable ?? false,
       maxLines: maxLine ?? 1,
       controller: controller,
@@ -27,6 +28,8 @@ class Field extends StatelessWidget {
       inputFormatters:
           isNumberType == true ? [FilteringTextInputFormatter.digitsOnly] : [],
       decoration: InputDecoration(
+        labelStyle: TextStyle(color: Theme.of(context).primaryColorDark),
+          hintStyle: TextStyle(color: Theme.of(context).primaryColor),
           hintText: hintText,
           labelText: hintText,
           focusedBorder: OutlineInputBorder(

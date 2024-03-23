@@ -74,6 +74,12 @@ class ListItemWidget extends StatelessWidget {
                 color: Theme.of(context).primaryColorLight),
             child: ListTile(
               leading: Radio<bool>(
+                fillColor:
+                MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      return Theme.of(context).primaryColorDark;
+
+                    }),
                 value: task.isCompleted,
                 onChanged: (value) async {
 

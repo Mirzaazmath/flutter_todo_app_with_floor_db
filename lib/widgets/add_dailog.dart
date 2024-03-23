@@ -57,7 +57,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
           margin: const EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
-              color: Colors.white,
+              color: Theme.of(context).primaryColorLight,
               borderRadius: BorderRadius.circular(Constants.padding),
             border: Border.all(color: Colors.grey)
 
