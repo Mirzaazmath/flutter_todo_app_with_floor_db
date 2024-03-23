@@ -39,6 +39,7 @@ class HomeScreen extends StatelessWidget {
                     itemCount: snapshot.data?.length,
                       itemBuilder: (context,index){
                       Task task=snapshot.data![index];
+                      // Task Widget
                       return ListItemWidget(task:task);
 
                   });
@@ -49,6 +50,7 @@ class HomeScreen extends StatelessWidget {
 
           }
       ),
+      // Adding New Task on Tap
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColorDark,
         onPressed: () {
@@ -56,6 +58,7 @@ class HomeScreen extends StatelessWidget {
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) {
+                // Custom Dialog to Add Task
                 return const CustomDialogBox();
               });
         },

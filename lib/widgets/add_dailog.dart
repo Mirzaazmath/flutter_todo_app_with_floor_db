@@ -10,8 +10,13 @@ import 'color_btn.dart';
 
 // CUSTOM DAILOG CLASS
 class CustomDialogBox extends StatefulWidget {
+  final bool? isEdit;
+  final Task? task;
   const CustomDialogBox({
     super.key,
+    this.isEdit,
+    this.task
+
   });
 
   @override
@@ -20,6 +25,14 @@ class CustomDialogBox extends StatefulWidget {
 
 class _CustomDialogBoxState extends State<CustomDialogBox> {
   TextEditingController taskNameController=TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.isEdit==true){
+      taskNameController.text=widget.task!.name;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -52,8 +65,8 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const Center(
-                child: TextUtil(text: "Add Task",size: 22,),
+               Center(
+                child: TextUtil(text:widget.isEdit==true?"Edit Task": "Add Task",size: 22,),
               ),
               const  SizedBox(height: 20,),
               Field(controller: taskNameController, hintText: "Task Name"),
@@ -70,16 +83,17 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                   ColorBtn(
                     width: 100,
                     color: Colors.white,
-                    title: 'Save',
+                    title:widget.isEdit==true?"Update": 'Save',
                     onTap: () async{
                       if(taskNameController.text==""){
                         showToast("Please Enter Task Name");
                       }else{
-                        final task = Task.optional(name: taskNameController.text, isCompleted: false);
-                        var value=await Provider.of<DataBaseProvider>(context,listen: false).doa!.insertTask(task);
+
+                        final task = widget.isEdit==true?Task.optional(id: widget.task!.id,name: taskNameController.text, isCompleted: false):Task.optional(name: taskNameController.text, isCompleted: false);
+                        var value=  widget.isEdit==true?await Provider.of<DataBaseProvider>(context,listen: false).doa!.updateTask(task): await Provider.of<DataBaseProvider>(context,listen: false).doa!.insertTask(task);
                         if(value.runtimeType==int){
                           Navigator.pop(context);
-                          showToast("Task Added");
+                          showToast( widget.isEdit==true?"Task Updated":"Task Added");
                         }else{
                           showToast("Something Went Wrong");
                         }
@@ -106,10 +120,10 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             child: CircleAvatar(
               backgroundColor: Theme.of(context).primaryColorDark,
               radius: 50,
-              child:const  Icon(
+              child:  Icon(
 
-                Icons.check_circle_outline_outlined,
-                size: 60,
+              widget.isEdit==true?Icons.edit:  Icons.check_circle_outline_outlined,
+                size:widget.isEdit==true?40: 60,
                 color: Colors.white,
               ),
             ),
